@@ -4,6 +4,7 @@ from django.shortcuts import render
 # https redirect , shortcuts redirect
 
 # {{% url 'home' as url}}
+# useform a way in django to make inputs forms
 
 def homePage(request):
     # data = {
@@ -34,5 +35,23 @@ def about(request):
 def about_us(request):
     return HttpResponse('hi there')
 
+def calculator(request):
+    c=''
+    try:
+        if request.method == "POST" :
+            num1 = eval(request.POST.get('num1'))
+            num2 = eval(request.POST.get('num2'))
+            opr = request.POST.get('operator')
+            if opr == '+':
+                c=num1+num2
+            elif opr == '-':
+                c=num1-num2
+            elif opr == '*':
+                c=num1*num2
+            elif opr == '/':
+                c=num1/num2
+    except:
+        c='invalid inputs'
+    return render(request,'calculator.html',{'op':c})
 
     

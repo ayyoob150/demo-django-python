@@ -27,6 +27,8 @@
         <button type="submit">submit</button>
         <div>{{name}} {{pass}}</div>
     </form>
+    {% url 'calculator' as url %}
+    <a href="{{url}}">go to calculator</a>
 </body>
 {% endblock %}
 </html>
