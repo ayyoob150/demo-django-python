@@ -1,4 +1,8 @@
 python manage.py startapp service 
 to access the serice of admin and model it will create a service folder 
-makemigrate command to make model schema
-migration command to create table in database
+makemigrations command to make model schema
+migrate command to create table in database
+
+
+//// To create super user 
+python manage.py createsuperuser
