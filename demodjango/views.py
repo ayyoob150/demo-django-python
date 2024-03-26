@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from service.models import Product
 # form get post crfs
 # https redirect , shortcuts redirect
 
@@ -7,6 +8,10 @@ from django.shortcuts import render
 # useform a way in django to make inputs forms
 
 def homePage(request):
+    productData = Product.objects.all().order_by('name')[:3]
+    # for a in productData:
+    #     print(a.name)
+    
     # data = {
     #     'list':[
     #     {'name':'abc'},
@@ -16,7 +21,7 @@ def homePage(request):
     #     {'name':'g'},
     #     {'name':'hh'},
     # ]}
-    data={}
+    data={'product':productData}
     try:
         
         if request.method == "POST":

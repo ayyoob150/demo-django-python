@@ -6,3 +6,7 @@ migrate command to create table in database
 
 //// To create super user 
 python manage.py createsuperuser
+
+to get data from database
+productData = Product.objects.all().order_by('-name') in decending order
+productData = Product.objects.all().order_by('name')[2:3] limiting data

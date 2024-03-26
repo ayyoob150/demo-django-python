@@ -1,34 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DemoPy</title>
-</head>
-{% extends 'base.html' %}
-{% block content %}
-<body>
-    <h1>Welcome</h1>
-    {% comment %} <div>{{list|length}}</div> {% endcomment %}
-    {% comment %} <div>{{list}}</div> {% endcomment %}
-    {% comment %} {% for l in list %}
-    {% if l.name == 'ff' %}
-    <div>ok</div>
-    {% else %}
-    <div>
-        {{l.name}}
-    </div>
-    {% endif %}
-    {%endfor%} {% endcomment %}
-    <form method="post">
+  </head>
+  {% extends 'base.html' %}
+  {% block content %}
+    <body>
+      <h1>Welcome</h1>
+      {% comment %} <div>{{ list|length }}</div> {% endcomment %}
+      {% comment %} <div>{{ list }}</div> {% endcomment %}
+      {% comment %} {% for l in list %}
+        {% if l.name == 'ff' %}
+          <div>ok</div>
+        {% else %}
+          <div>{{ l.name }}</div>
+        {% endif %}
+      {% endfor %} {% endcomment %}
+      <form method="post">
         {% csrf_token %}
-        <input type="text" name="name" value="{{name}}">
-        <input type="text" name="pass" value="{{pass}}">
+        <input type="text" name="name" value="{{ name }}" />
+        <input type="text" name="pass" value="{{ pass }}" />
         <button type="submit">submit</button>
-        <div>{{name}} {{pass}}</div>
-    </form>
-    {% url 'calculator' as url %}
-    <a href="{{url}}">go to calculator</a>
-</body>
-{% endblock %}
+        <div>{{ name }} {{ pass }}</div>
+      </form>
+      <br/>
+      <br/>     
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+          </tr>
+          <br/>
+      <br/> 
+        </thead>
+        <tbody>
+          {% for productItem in product %}
+            <tr>
+              <td>{{ productItem.name }}</td>
+              <td>{{ productItem.price }}</td>
+              <td>{{ productItem.description }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      {% url 'calculator' as url %}
+      <a href="{{ url }}">go to calculator</a>
+    </body>
+  {% endblock %}
 </html>
