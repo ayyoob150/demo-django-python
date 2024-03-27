@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from service.models import Product
+from django.core.paginator import Paginator
 # form get post crfs
 # https redirect , shortcuts redirect
 
@@ -9,10 +10,13 @@ from service.models import Product
 
 def homePage(request):
     productData = Product.objects.all()
+    paginator = Paginator(productData,2)
+    pageNumber= request.GET.get('page')
+    dataOnPage= paginator.get_page(pageNumber)
     if request.method == 'GET':
         searchKey = request.GET.get('searchProduct')
         if searchKey != None :
-            productData = Product.objects.filter(name__icontains=searchKey)
+            dataOnPage = Product.objects.filter(name__icontains=searchKey)
     # for a in productData:
     #     print(a.name)
     
@@ -25,7 +29,7 @@ def homePage(request):
     #     {'name':'g'},
     #     {'name':'hh'},
     # ]}
-    data={'product':productData,
+    data={'product':dataOnPage,
           'searchKey':searchKey}
     try:
         

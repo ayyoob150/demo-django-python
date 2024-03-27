@@ -1,3 +1,12 @@
+# install django on virtual enviroment
+# python -m venv myfolder name
+# -m means module
+# into the virtual enviroment which have created go there  and check there is scripts folder and there activate file run it in cmd
+# cd myfoldername cd scripts and .\activate
+# pip install django
+#  django-admin startproject projectname
+# python manage.py runserver (to run this project)
+
 python manage.py startapp service 
 to access the serice of admin and model it will create a service folder 
 makemigrations command to make model schema
@@ -48,11 +57,34 @@ Slice (slice): Returns a slice of a list or string.
 /////////// prams in d jango
 product/<id>/
 
-/// change password of admin 
+/////////// change password of admin 
 python manage.py changepassword usernnameofadmin
 
-/////// searching in database
+///////////// searching in database
 productData = Product.objects.filter(name=searchKey) this will search if both the equal matches
 productData = Product.objects.filter(name__icontains=searchKey) this will search if the string alike
 
-/// django-autoslug pip library use to make unique url "the-is-the-example-of-url" 
+///////////// django-autoslug pip library use to make unique url "the-is-the-example-of-url" 
+
+
+////////// Pagination in django
+
+from django.core.paginator import Paginator
+productData = Product.objects.all()
+    paginator = Paginator(productData,2)
+    pageNumber= request.GET.get('page')
+    dataOnPage= paginator.get_page(pageNumber)
+
+  {% if product.has_previous %}
+        <a href="/?page={{product.previous_page_number}}">Previous</a>
+        {% endif %}
+            
+        &nbsp;
+        <a >1</a>
+        &nbsp;<span>2</span>
+        &nbsp;
+        
+        {% if product.has_next %}
+        <a href="/?page={{product.next_page_number}}">Next</a>
+        {% endif %}
+            

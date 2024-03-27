@@ -55,7 +55,29 @@
           {% endfor %}
         </tbody>
       </table>
+      <br/>
+      <br/>
+      
+      {% if searchKey == None %}
+      <div>
+        
+        {% if product.has_previous %}
+        <a href="/?page={{product.previous_page_number}}">Previous</a>
+        {% endif %}
+            
+        &nbsp;
+        <a >1</a>
+        &nbsp;<span>2</span>
+        &nbsp;
+        
+        {% if product.has_next %}
+        <a href="/?page={{product.next_page_number}}">Next</a>
+        {% endif %}
+            
 
+      </div>
+      {% endif %}
+        
       <br/>
       <br/>
       {% for productItem in product %}
