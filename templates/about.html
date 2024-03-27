@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-<div>{% lorem 16 %}</div>
+<div>{{productDetail.name}}</div>
+<div>{{productDetail.description | safe}}</div>
+
+{% comment %} <div>{% lorem 16 %}</div> {% endcomment %}
 {% endblock %}

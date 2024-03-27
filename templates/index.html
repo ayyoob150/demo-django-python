@@ -26,7 +26,12 @@
         <div>{{ name }} {{ pass }}</div>
       </form>
       <br/>
-      <br/>     
+      <form method="get">
+      <input type="text" name='searchProduct' value={{searchKey|default:""}}>
+      <input type="submit" value="Search">
+      </form>
+      <br/>    
+
       <table>
         <thead>
           <tr>
@@ -40,13 +45,29 @@
         <tbody>
           {% for productItem in product %}
             <tr>
+                <td>{{productItem.id}}</td>
               <td>{{ productItem.name }}</td>
               <td>{{ productItem.price }}</td>
-              <td>{{ productItem.description }}</td>
+              <td>{{ productItem.description |title | safe  }}</td>
             </tr>
+            {% empty %}
+            <strong>No data found</strong>
           {% endfor %}
         </tbody>
       </table>
+
+      <br/>
+      <br/>
+      {% for productItem in product %}
+      <center>
+        <br/>
+        <strong>
+            <u><a href="about/{{productItem.id}}">{{productItem.name}}</a></u>
+        </strong>
+        
+      </center>
+
+    {% endfor %}
 
       {% url 'calculator' as url %}
       <a href="{{ url }}">go to calculator</a>

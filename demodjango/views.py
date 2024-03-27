@@ -8,7 +8,11 @@ from service.models import Product
 # useform a way in django to make inputs forms
 
 def homePage(request):
-    productData = Product.objects.all().order_by('name')[:3]
+    productData = Product.objects.all()
+    if request.method == 'GET':
+        searchKey = request.GET.get('searchProduct')
+        if searchKey != None :
+            productData = Product.objects.filter(name__icontains=searchKey)
     # for a in productData:
     #     print(a.name)
     
@@ -21,7 +25,8 @@ def homePage(request):
     #     {'name':'g'},
     #     {'name':'hh'},
     # ]}
-    data={'product':productData}
+    data={'product':productData,
+          'searchKey':searchKey}
     try:
         
         if request.method == "POST":
@@ -34,8 +39,9 @@ def homePage(request):
         pass
     return render(request,'index.html',data)
 
-def about(request):
-    return render(request,'about.html')
+def about(request,id):
+    productDetail = Product.objects.get(id=id)
+    return render(request,'about.html',{'productDetail':productDetail})
 
 def about_us(request):
     return HttpResponse('hi there')

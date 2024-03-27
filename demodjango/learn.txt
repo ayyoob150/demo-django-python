@@ -10,3 +10,49 @@ python manage.py createsuperuser
 to get data from database
 productData = Product.objects.all().order_by('-name') in decending order
 productData = Product.objects.all().order_by('name')[2:3] limiting data
+
+////////// Tamplate filter
+Safe (safe): Marks a string as safe for HTML output. It disables HTML escaping for the variable.
+
+{{ value|safe }}
+
+Escape (escape): Escapes special characters in a string so that it can be safely displayed as HTML
+{{ value|escape }}
+
+Length (length): Returns the length of a list or the number of characters in a string.
+{{ value|length }}
+
+Lowercase (lower): Converts a string to lowercase.
+{{ value|lower }}
+
+Uppercase (upper): Converts a string to uppercase.
+{{ value|upper }}
+
+Titlecase (title): Converts the first character of each word in a string to uppercase.
+{{ value|title }}
+
+Date (date): Formats a date according to the given format string.
+{{ value|date:"Y-m-d" }}
+
+Time (time): Formats a time according to the given format string.
+{{ value|time:"H:i:s" }}
+
+Default (default): Sets a default value if the variable is not defined or is empty.
+{{ value|default:"No value" }}
+
+Slice (slice): Returns a slice of a list or string.
+{{ value|slice:"2:5" }}
+
+/////////// pip install django-tinymce this is a richeditor in admin page to use html properties
+
+/////////// prams in d jango
+product/<id>/
+
+/// change password of admin 
+python manage.py changepassword usernnameofadmin
+
+/////// searching in database
+productData = Product.objects.filter(name=searchKey) this will search if both the equal matches
+productData = Product.objects.filter(name__icontains=searchKey) this will search if the string alike
+
+/// django-autoslug pip library use to make unique url "the-is-the-example-of-url" 
