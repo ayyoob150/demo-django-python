@@ -30,7 +30,7 @@
       <input type="text" name='searchProduct' value={{searchKey|default:""}}>
       <input type="submit" value="Search">
       </form>
-      <br/>    
+      <br/> 
 
       <table>
         <thead>
@@ -63,21 +63,45 @@
         
         {% if product.has_previous %}
         <a href="/?page={{product.previous_page_number}}">Previous</a>
+        &nbsp;
+        <a href="/?page=1">First Page</a>
+
         {% endif %}
-            
-        &nbsp;
-        <a >1</a>
-        &nbsp;<span>2</span>
-        &nbsp;
+      
+      {% for n in totalPageList %}
+      &nbsp;
+      <a href="/?page={{n}}">{{n}}</a>
+      &nbsp;
+      {% endfor %}
+        
+       
         
         {% if product.has_next %}
+        <a href="/?page={{lastPage}}">Last Page</a>
+        &nbsp;
         <a href="/?page={{product.next_page_number}}">Next</a>
+
         {% endif %}
             
 
       </div>
       {% endif %}
-        
+
+      <h3>Add Data into Table</h3>
+    <form method="post">
+        {% csrf_token %}
+        <label for="pName">Name</label>
+        <input type="text" name="pName" value="">
+        <label for="price">Price</label>
+        <input type="text" name="price" value="">
+        <label for="description">Description</label>
+        <input type="text" name="description" value="">
+        <input type="submit" value="Save">
+    </form>
+    <br/>   
+
+    <div>{{dataInserted}}</div>
+      
       <br/>
       <br/>
       {% for productItem in product %}
@@ -90,6 +114,8 @@
       </center>
 
     {% endfor %}
+
+    
 
       {% url 'calculator' as url %}
       <a href="{{ url }}">go to calculator</a>

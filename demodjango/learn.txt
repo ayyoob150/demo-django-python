@@ -7,16 +7,69 @@
 #  django-admin startproject projectname
 # python manage.py runserver (to run this project)
 
+
+///// models 
+from django.db import models
+class Product(models.Model):
+    name = models.CharField(max_length=50)
+    price = models.CharField(max_length=50)
+    description = models.TextField()
+
 python manage.py startapp service 
 to access the serice of admin and model it will create a service folder 
 makemigrations command to make model schema
 migrate command to create table in database
 
+///// url give the of the url in 3rd argument access it {% url 'calculator' as url %}
+
+//////// DRY component
+in base.html file
+{% include 'header.html' %}
+{% block content %}
+{% endblock %}
+
+in about html file 
+{% extends 'base.html' %}
+{% block content %}
+<div>{{productDetail.name}}</div>
+<div>{{productDetail.description | safe}}</div>
+{% comment %} <div>{% lorem 16 %}</div> {% endcomment %}
+{% endblock %}
+
+//////// https request form data handling how to access data
+(
+fot the post request is give csrf-token
+<form method="post">
+{% csrf_token %}
+in the html templete
+    )
+if request.method == 'POST':
+        name = request.POST.get('pName')
+        price = request.POST.get('price')
+        description = request.POST.get('description')
+        insertInProduct = Product(name=name,price=price,description=description)
+        insertInProduct.save()
+
+if request.method == 'GET':
+        n2=request.GET['pass']
+
+////////// Redirect page
+from django.http import HttpResponseRedirect
+def about_us(request):
+    return HttpResponse('hi there')
+    another way
+from django.shortcuts import render,redirect
+def about_us(request):
+    return redirect('hi there')
+
+
+////// django form
+
 
 //// To create super user 
 python manage.py createsuperuser
 
-to get data from database
+///////// To get data from database and queries and limiting
 productData = Product.objects.all().order_by('-name') in decending order
 productData = Product.objects.all().order_by('name')[2:3] limiting data
 
@@ -60,31 +113,46 @@ product/<id>/
 /////////// change password of admin 
 python manage.py changepassword usernnameofadmin
 
-///////////// searching in database
+///////////// searching in database filters
 productData = Product.objects.filter(name=searchKey) this will search if both the equal matches
 productData = Product.objects.filter(name__icontains=searchKey) this will search if the string alike
 
 ///////////// django-autoslug pip library use to make unique url "the-is-the-example-of-url" 
 
 
-////////// Pagination in django
+////////// Pagination in django //////////
 
 from django.core.paginator import Paginator
 productData = Product.objects.all()
     paginator = Paginator(productData,2)
     pageNumber= request.GET.get('page')
     dataOnPage= paginator.get_page(pageNumber)
+    lastPage= dataOnPage.paginator.num_pages
 
-  {% if product.has_previous %}
+    data={'product':dataOnPage,
+          'lastPage':lastPage,
+          'totalPageList':[n+1 for n in range(lastPage)]
+          }
+
+ {% if product.has_previous %}
         <a href="/?page={{product.previous_page_number}}">Previous</a>
+        &nbsp;
+        <a href="/?page=1">First Page</a>
+
         {% endif %}
-            
-        &nbsp;
-        <a >1</a>
-        &nbsp;<span>2</span>
-        &nbsp;
-        
+      
+      {% for n in totalPageList %}
+      &nbsp;
+      <a href="/?page={{n}}">{{n}}</a>
+      &nbsp;
+      {% endfor %}
+ 
         {% if product.has_next %}
+        <a href="/?page={{lastPage}}">Last Page</a>
+        &nbsp;
         <a href="/?page={{product.next_page_number}}">Next</a>
+
         {% endif %}
+
+
             

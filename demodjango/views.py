@@ -9,10 +9,13 @@ from django.core.paginator import Paginator
 # useform a way in django to make inputs forms
 
 def homePage(request):
+    searchKey=''
+    dataInserted = ''
     productData = Product.objects.all()
-    paginator = Paginator(productData,2)
+    paginator = Paginator(productData,3)
     pageNumber= request.GET.get('page')
     dataOnPage= paginator.get_page(pageNumber)
+    lastPage= dataOnPage.paginator.num_pages
     if request.method == 'GET':
         searchKey = request.GET.get('searchProduct')
         if searchKey != None :
@@ -29,8 +32,20 @@ def homePage(request):
     #     {'name':'g'},
     #     {'name':'hh'},
     # ]}
+    
+    if request.method == 'POST':
+        name = request.POST.get('pName')
+        price = request.POST.get('price')
+        description = request.POST.get('description')
+        insertInProduct = Product(name=name,price=price,description=description)
+        insertInProduct.save()
+        dataInserted = 'Data Inserted'
     data={'product':dataOnPage,
-          'searchKey':searchKey}
+          'searchKey':searchKey,
+          'lastPage':lastPage,
+          'totalPageList':[n+1 for n in range(lastPage)],
+          'dataInserted':dataInserted
+          }    
     try:
         
         if request.method == "POST":
@@ -39,6 +54,7 @@ def homePage(request):
             # n2=request.POST.get("pass")
             data={'name':n1,'pass':n2}
             print("ghii",data)
+            
     except:
         pass
     return render(request,'index.html',data)
