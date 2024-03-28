@@ -155,4 +155,31 @@ productData = Product.objects.all()
         {% endif %}
 
 
-            
+crud operation ///////////////////////
+c
+from .models import Car
+first way of inserting data in database
+car = Car(name="abc",speed:100)
+car.save()
+second
+Car.objects.create(name='abc',speed=110)
+third
+car_dist = {'name':'abc' , 'speed' : 120}
+Car.objects.create(**car_dist)
+
+r
+car = Car.objects.all()
+car = Car.objects.get(id=1) if there is no data found i will return exception
+car = Car.objects.filter(id=1) if there is no data found i will return empty object it will not raise the exception
+
+u
+car = Car.objects.get(id=1)
+car.name = 'maruti'
+car.speed = 200
+car.save()
+
+Car.objects.filter(id=1).update(name='nexon')
+
+d
+Car.objects.all().delete() it will all the record in the table
+Car.objects.get(id=1).delete()
