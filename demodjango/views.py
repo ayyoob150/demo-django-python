@@ -1,7 +1,8 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render,redirect
 from service.models import Product
 from django.core.paginator import Paginator
+from service.serializers import ProductSerializer
 # form get post crfs
 # https redirect , shortcuts redirect
 
@@ -64,7 +65,8 @@ def about(request,id):
     return render(request,'about.html',{'productDetail':productDetail})
 
 def about_us(request):
-    return HttpResponse('hi there')
+    pro = Product.objects.all()
+    return JsonResponse({'pro':pro},safe=False)
 
 def calculator(request):
     c=''
@@ -85,4 +87,14 @@ def calculator(request):
         c='invalid inputs'
     return render(request,'calculator.html',{'op':c})
 
+def delete(request,id):
+    delPro=Product.objects.get(id=id)
+    delPro.delete()
+    return redirect('home')
+
+def product(request):
+    product = Product.objects.all()
+    proSerializer = ProductSerializer(product,many=True)
+    return JsonResponse(proSerializer.data, safe=False)
+    
     

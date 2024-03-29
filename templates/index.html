@@ -49,6 +49,9 @@
               <td>{{ productItem.name }}</td>
               <td>{{ productItem.price }}</td>
               <td>{{ productItem.description |title | safe  }}</td>
+              <td>
+                <a href="/delete/{{productItem.id}}">Delete</a>
+              </td>
             </tr>
             {% empty %}
             <strong>No data found</strong>

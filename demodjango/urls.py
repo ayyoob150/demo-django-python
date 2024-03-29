@@ -20,9 +20,10 @@ from demodjango import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.homePage),
+    path('',views.homePage,name='home'),
     path('about_us/', views.about_us),
-    # path('about',views.about),
+    path('delete/<id>',views.delete),
     path('about/<id>',views.about),
-    path('calculator/',views.calculator,name='calculator')
+    path('calculator/',views.calculator,name='calculator'),
+    path('api/v1',views.product)
 ]
