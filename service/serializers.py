@@ -1,21 +1,26 @@
 from rest_framework import serializers
 from .models import Product
 
-class ProductSerializer(serializers.Serializer):
-    id= serializers.IntegerField(read_only=True)
-    name = serializers.CharField(required=False, allow_blank=True, max_length=50)
-    price = serializers.CharField(required=False, allow_blank=True,max_length=50)
-    description = serializers.CharField(required=False, allow_blank=True)
+# class ProductSerializer(serializers.Serializer):
+#     id= serializers.IntegerField(read_only=True)
+#     name = serializers.CharField(required=False, allow_blank=True, max_length=50)
+#     price = serializers.CharField(required=False, allow_blank=True,max_length=50)
+#     description = serializers.CharField(required=False, allow_blank=True)
     
-    def create(self, validated_data):
-        return Product.objects.create(**validated_data)
+#     def create(self, validated_data):
+#         return Product.objects.create(**validated_data)
     
-    def update(self,instance , validated_data):
-        instance.name = validated_data.get('name',instance.name)
-        instance.price = validated_data.get('price',instance.price)
-        instance.description = validated_data.get('description',instance.description)
-        instance.save()
-        return instance
+#     def update(self,instance , validated_data):
+#         instance.name = validated_data.get('name',instance.name)
+#         instance.price = validated_data.get('price',instance.price)
+#         instance.description = validated_data.get('description',instance.description)
+#         instance.save()
+#         return instance
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = '__all__'
         
         
 

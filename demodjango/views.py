@@ -3,6 +3,9 @@ from django.shortcuts import render,redirect
 from service.models import Product
 from django.core.paginator import Paginator
 from service.serializers import ProductSerializer
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 # form get post crfs
 # https redirect , shortcuts redirect
 
@@ -65,8 +68,7 @@ def about(request,id):
     return render(request,'about.html',{'productDetail':productDetail})
 
 def about_us(request):
-    pro = Product.objects.all()
-    return JsonResponse({'pro':pro},safe=False)
+    return HttpResponse('hi there')
 
 def calculator(request):
     c=''
@@ -92,9 +94,21 @@ def delete(request,id):
     delPro.delete()
     return redirect('home')
 
+# def product(request):
+#     product = Product.objects.all()
+#     proSerializer = ProductSerializer(product,many=True)
+#     return JsonResponse(proSerializer.data, safe=False)
+
+@api_view(['GET', 'POST'])
 def product(request):
-    product = Product.objects.all()
-    proSerializer = ProductSerializer(product,many=True)
-    return JsonResponse(proSerializer.data, safe=False)
-    
+    if request.method == 'GET':
+        product = Product.objects.all()
+        proSerializer = ProductSerializer(product,many=True)
+        return Response(proSerializer.data)
+    elif request.method == 'POST':
+        productSerializer = ProductSerializer(data=request.data)
+        if productSerializer.is_valid():
+            productSerializer.save()
+            return Response(productSerializer.data, status=status.HTTP_201_CREATED)
+    return Response(productSerializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
